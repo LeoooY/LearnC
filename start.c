@@ -3,6 +3,7 @@
   告诉 C 编译器在实际编译之前要包含 stdio.h 文件。
 */
 #include <stdio.h>
+#include <stdlib.h>
 
 // char foo(char bar);
 
@@ -11,8 +12,8 @@
   int main() 是主函数，程序从这里开始执行
  */
 
-char foo(char bar){
-  printf("call foo, return %d",bar);
+char *foo(char * bar){
+  printf("call foo, return %s\n",bar);
   return bar;
 }
 
@@ -23,6 +24,19 @@ int runner()
     return count;
 }
 
+typedef struct node{
+  int val;
+  struct node * next;
+} listNode;
+
+listNode * initANode(int value){
+  listNode * node=NULL;
+  node=malloc( sizeof(listNode));
+  
+  node -> val=value;
+  node -> next=NULL;
+  return node;
+}
 
 int main()
 {
@@ -41,5 +55,12 @@ int main()
     printf("%d ", runner());
     printf("%d \n", runner());
     foo("barbarbar");
+
+    listNode * head=initANode(2);
+    printf("pointer head,%d,%s\n",head->val,head->next);
+    head->next=initANode(9);    
+    printf("pointer first item,%d,%o,%d,%o\n",head->val,head->next,head->next->val,head->next->next);
+    
+
     return 0;
 }

@@ -236,7 +236,7 @@ void move(point * p) {
 
 ### 动态内存分配 Dynamic allocation
 - ->  访问struct属性
-- malloc() 按需分配内存
+- malloc( sizeof( dataType )) 按需分配内存
 - free()  释放malloc分配的内存,只清空了变量指向的内存，并没有清除该变量
 ```
 typedef struct {
@@ -250,6 +250,171 @@ myperson->name = "John";
 myperson->age = 27;
 
 free(myperson);
+
+```
+### 数组与指针
+指向数组的指针
+```
+char vowels[] = {'A', 'E', 'I', 'O', 'U'};
+char *pvowels = &vowels;
+int i;
+
+// Print the addresses
+for (i = 0; i < 5; i++) {
+    printf("&vowels[%d]: %u, pvowels + %d: %u, vowels + %d: %u\n", i, &vowels[i], i, pvowels + i, i, vowels + i);
+}
+
+// Print the values
+for (i = 0; i < 5; i++) {
+    printf("vowels[%d]: %c, *(pvowels + %d): %c, *(vowels + %d): %c\n", i, vowels[i], i, *(pvowels + i), i, *(vowels + i));
+}
+```
+数组的动态内存分配
+- 一维数组
+```
+// Allocate memory to store five characters
+int n = 5;
+char *pvowels = (char *) malloc(n * sizeof(char));
+int i;
+
+pvowels[0] = 'A';
+pvowels[1] = 'E';
+*(pvowels + 2) = 'I';
+pvowels[3] = 'O';
+*(pvowels + 4) = 'U';
+
+for (i = 0; i < n; i++) {
+    printf("%c ", pvowels[i]);
+}
+
+printf("\n");
+
+free(pvowels);
+```
+- 二维数组 需要使用多个指针
+```
+int nrows = 2;
+int ncols = 5;
+int i, j;
+
+// Allocate memory for nrows pointers
+char **pvowels = (char **) malloc(nrows * sizeof(char *));
+
+// For each row, allocate memory for ncols elements
+pvowels[0] = (char *) malloc(ncols * sizeof(char));
+pvowels[1] = (char *) malloc(ncols * sizeof(char));
+
+pvowels[0][0] = 'A';
+pvowels[0][1] = 'E';
+pvowels[0][2] = 'I';
+pvowels[0][3] = 'O';
+pvowels[0][4] = 'U';
+
+pvowels[1][0] = 'a';
+pvowels[1][1] = 'e';
+pvowels[1][2] = 'i';
+pvowels[1][3] = 'o';
+pvowels[1][4] = 'u';
+
+for (i = 0; i < nrows; i++) {
+    for(j = 0; j < ncols; j++) {
+        printf("%c ", pvowels[i][j]);
+    }
+
+    printf("\n");
+}
+
+// Free individual rows
+free(pvowels[0]);
+free(pvowels[1]);
+
+// Free the top-level pointer
+free(pvowels);
+```
+
+### 递归 Recursion
+- 递归实现乘法
+```
+#include <stdio.h>
+
+unsigned int multiply(unsigned int x, unsigned int y)
+{
+    if (x == 1)
+    {
+        /* Terminating case */
+        return y;
+    }
+    else if (x > 1)
+    {
+        /* Recursive step */
+        return y + multiply(x-1, y);
+    }
+
+    /* Catch scenario when x is zero */
+    return 0;
+}
+
+int main() {
+    printf("3 times 5 is %d", multiply(3, 5));
+    return 0;
+}
+
+```
+- 递归阶乘
+```
+#include <stdio.h>
+
+int factorial(int x){
+    if(x==1){
+    	return x;
+    }
+    
+    return x*factorial(x-1);
+}
+
+int main() {
+    /* testing code */
+    printf("1! = %i\n", factorial(1));
+    printf("3! = %i\n", factorial(3));
+    printf("5! = %i\n", factorial(5));
+}
+```
+
+### 链表
+链表是用指针实现的最好的且最简单的动态数据结构
+理解链表的前置知识：指针、struct、动态内存分配
+
+- 链表对于数组的优势
+  1 从链表中间插入或者删除元素的开销很小
+  2 不需要在申明时定义链表大小（C语言中数组的申明需要定义数组长度大小）
+- 劣势
+  1 不能像数组一样根据idx随机存取，必须从头指针开始遍历直到idx元素（访问开销大） 
+  2 需要动态分配内存和指针来进行申明，增加了代码复杂度进而增加内存泄漏风险和segment faults
+  3 链表占用存储空间更大，因为每个节点要多存储一个指针域
+
+Q: 什么是链表？
+A: 链表是由一组动态分配内存的节点构成的数据结构，每个节点包含一个`数据域`和一个`指针域`，`指针域`永远指向下一个节点。
+如果一个节点的`指针域`指向为`NULL`，那么这个节点为该链表的结束。
+如果指向第一个节点的指针指向为`NULL`，那么这个链表为空链表。
+
+定义链表结构
+```
+typedef struct node {
+    int val;
+    struct node * next;
+} listNode;
+```
+定义链表
+```
+listNode * head=NULL;
+head=malloc(sizeof(listNode));
+
+if(head == NULL){
+  return 1
+}
+
+head -> val= '节点数据';
+head -> next = NULL; // 指定下一个节点为空
 
 ```
 

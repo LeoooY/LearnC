@@ -32,7 +32,8 @@ void iterateList(listNode *head)
 
   while (curNode->val != NULL)
   {
-    printf("%d\n", curNode->val) : curNode = curNode->next;
+    printf("%d\n", curNode->val);
+    curNode = curNode->next;
   }
 }
 
@@ -105,7 +106,7 @@ void delFirst(listNode **head)
     head->next在创建时候就已经为动态分配内存的
     所以不需要再使用 malloc(sizeof())
   */
-  listNode *nextNode = head->next;
+  listNode *nextNode = (* head)->next;
   // isSucess = (*head)->val;
   isSucess = 1;
   free(*head);

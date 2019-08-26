@@ -16,7 +16,7 @@ char name[40];
 void c;
 
 #define PI 3.14;
-const c=0;
+const int c=0;
 
 ```
 ### 数组 Arrays

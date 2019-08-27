@@ -380,7 +380,7 @@ int main() {
 }
 ```
 
-### 链表
+### 链表 linked list
 链表是用指针实现的最好的且最简单的动态数据结构
 理解链表的前置知识：指针、struct、动态内存分配
 
@@ -418,3 +418,37 @@ head -> next = NULL; // 指定下一个节点为空
 
 ```
 
+### 二叉树 binary tree
+- 二叉树是每个结点最多含有两个节点的数据结构
+- 二叉树数据结构可以用于实现二叉搜索树、binary heaps(堆)等
+- 二叉树是一种特殊的多叉树，其叉为2
+
+#### 二叉树的常规操作
+- 插入 insertion
+- 删除 deletion
+- 遍历 tarverlsal
+
+### 二叉平衡树
+二叉平衡树左右子树深度之差小于等于1
+二叉平衡树深度=log2(N)，N为元素个数
+
+- 深度优先算法
+- 广度优先算法
+
+```
+typedef struct node
+{
+  int val;
+  struct node * left;
+  struct node * right;
+} bTreeNode;
+```
+
+### 集合 Union 
+C中的集合和C中的struct一样重要
+```
+union intParts {
+  int theInt;
+  char bytes[sizeof(int)];
+};
+```

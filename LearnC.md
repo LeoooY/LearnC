@@ -445,7 +445,7 @@ typedef struct node
 ```
 
 ### 集合 Union 
-C中的集合和C中的struct一样重要
+C中的集合和C中的struct一样重要,在集合中一个
 ```
 union intParts {
   int theInt;

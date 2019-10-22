@@ -6,6 +6,9 @@ int removeDuplicates(int* nums, int numsSize){
     int temp;
     for(int i=0; i<numsSize; i++ ){
         printf("out: %d\n",*nums+i);
+        // if(*nums+i==*nums+i+1){
+        //     *nums+i+1=*nums+i+2;
+        // }
     }
     return 0;
 }

@@ -1,3 +1,33 @@
+<!-- TOC -->
+
+- [[learn-c.org](https://www.learn-c.org/)](#learn-corghttpswwwlearn-corg)
+        - [模块预处理器](#模块预处理器)
+        - [变量申明](#变量申明)
+        - [数组 Arrays](#数组-arrays)
+        - [多维数组 Multidimensional Arrays](#多维数组-multidimensional-arrays)
+        - [条件判断](#条件判断)
+        - [字符串 Stings](#字符串-stings)
+        - [循环 For Loop](#循环-for-loop)
+        - [循环 Fhile Loop](#循环-fhile-loop)
+        - [函数 Functions](#函数-functions)
+        - [静态声明 static](#静态声明-static)
+        - [指针 Pointer](#指针-pointer)
+        - [（对象）结构 Structures](#对象结构-structures)
+        - [`按值传递` 和 `按址(引用)传递`函数参数 Function arguments by reference](#按值传递-和-按址引用传递函数参数-function-arguments-by-reference)
+        - [动态内存分配 Dynamic allocation](#动态内存分配-dynamic-allocation)
+        - [数组与指针](#数组与指针)
+        - [递归 Recursion](#递归-recursion)
+        - [链表 linked list](#链表-linked-list)
+        - [二叉树 binary tree](#二叉树-binary-tree)
+            - [二叉树的常规操作](#二叉树的常规操作)
+        - [二叉平衡树](#二叉平衡树)
+        - [集合 Union](#集合-union)
+        - [指针算法 Pointer Arithmetics](#指针算法-pointer-arithmetics)
+        - [函数指针 Function Pointers](#函数指针-function-pointers)
+
+<!-- /TOC -->
+# [learn-c.org](https://www.learn-c.org/)
+
 ### 模块预处理器
 - `#include <studio.h>` 
 
@@ -174,6 +204,33 @@ void moo() {
 - `*` 定义指针
 - `&` 指向变量
 - `*varName` 使用指针
+
+```
+/* define a local variable a */
+int a = 1;
+
+/* define a pointer variable, and point it to a using the & operator */
+int * pointer_to_a = &a;
+
+printf("The value a is %d\n", a);
+printf("The value of a is also %d\n", *pointer_to_a);
+```
+
+
+```
+int a = 1;
+int * pointer_to_a = &a;
+
+/* let's change the variable a */
+a += 1;
+
+/* we just changed the variable again! */
+*pointer_to_a += 1;
+
+/* will print out 3 */
+printf("The value of a is now %d\n", a);
+```
+
 
 ### （对象）结构 Structures
 C structures are special, large variables which contain several named variables inside.
@@ -452,3 +509,67 @@ union intParts {
   char bytes[sizeof(int)];
 };
 ```
+
+### 指针算法 Pointer Arithmetics
+- `Incrementing a Pointer with (++)`
+
+- `Decreasing a Pointer with (--)`
+
+- `Adding Pointers with (+)`
+
+- `Subtracting Pointers with (-)`
+
+
+### 函数指针 Function Pointers
+```
+void (*pf)(int);
+
+char* (*pf)(int*)
+```
+
+```
+#include <stdio.h>
+void someFunction(int arg)
+{
+    printf("This is someFunction being called and arg is: %d\n", arg);
+    printf("Whoops leaving the function now!\n");
+}
+
+main()
+{
+    void (*pf)(int);
+    pf = &someFunction;
+    printf("We're about to call someFunction() using a pointer!\n");
+    (pf)(5);
+    printf("Wow that was cool. Back to main now!\n\n");
+}
+```
+
+```
+#include <stdio.h>
+#include <stdlib.h> //for qsort()
+
+int compare(const void* left, const void* right)
+{
+    return (*(int*)right - *(int*)left);
+    // go back to ref if this seems complicated: http://www.cplusplus.com/reference/cstdlib/qsort/
+}
+main()
+{
+    int (*cmp) (const void* , const void*);
+    cmp = &compare;
+
+    int iarray[] = {1,2,3,4,5,6,7,8,9};
+    qsort(iarray, sizeof(iarray)/sizeof(*iarray), sizeof(*iarray), cmp);
+
+    int c = 0;
+    while (c < sizeof(iarray)/sizeof(*iarray))
+    {
+        printf("%d \t", iarray[c]);
+        c++;
+    }
+}
+```
+
+
+

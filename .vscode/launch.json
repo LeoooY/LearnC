@@ -8,7 +8,7 @@
       "name": "gcc.exe build and debug active file",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${fileDirname}\\start.exe",
+      "program": "${fileDirname}\\index.exe",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",

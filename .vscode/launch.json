@@ -5,17 +5,17 @@
     "version": "0.2.0",
     "configurations": [        
         {
-            "name": "gcc.exe build and debug active file",
+            "name": "gcc build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "D:\\Tools\\C64\\mingw64\\bin\\gdb.exe",
+            "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -23,7 +23,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "gcc.exe build active file",                        
+            "preLaunchTask": "gcc build active file",                        
         }
     ]
 }

@@ -8,7 +8,7 @@
         - [条件判断](#条件判断)
         - [字符串 Stings](#字符串-stings)
         - [循环 For Loop](#循环-for-loop)
-        - [循环 Fhile Loop](#循环-fhile-loop)
+        - [循环 While Loop](#循环-while-loop)
         - [函数 Functions](#函数-functions)
         - [静态声明 static](#静态声明-static)
         - [指针 Pointer](#指针-pointer)
@@ -126,7 +126,7 @@ int main(){
 
 ```
 
-### 循环 Fhile Loop
+### 循环 While Loop
 ```
 int n=0
 while(n<10)}{
@@ -201,9 +201,27 @@ void moo() {
 （简言之，指针是一个指向内存地址的变量，变量的值存储在其指向的内存地址中）
 
 操作符
-- `*` 定义指针,间接寻址运算符
-- `&` 指向变量，取地址运算符
-- `*varName` 使用指针
+- `*` 定义、使用指针, 间接寻址运算符，返回指针指向的内存地址
+- `&`  取地址运算符, 返回变量所在的内存地址
+
+
+```
+// int xx=1
+// int *p = &xx
+// *p 使用指针
+// %p,打印内存地址 printf("p: %p", p) 
+
+
+int a=1;
+int *p=&a;
+
+printf("a: %d",a);          // a的值1
+printf("a: %p",&a);         // a的地址 0x7fffffffddfc
+
+printf("*p: %d",*p);      // 1, p指向的内存地址的值>a=1
+printf("p: %p",p);        // p指向的内存地址，即a的内存地址：0x7fffffffddfc
+printf("&p: %p",&p);      // 保存p指针的内存地址：0x7fffffffde00
+```
 
 ```
 /* define a local variable a */

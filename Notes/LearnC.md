@@ -16,6 +16,7 @@
         - [`按值传递` 和 `按址(引用)传递`函数参数 Function arguments by reference](#按值传递-和-按址引用传递函数参数-function-arguments-by-reference)
         - [动态内存分配 Dynamic allocation](#动态内存分配-dynamic-allocation)
         - [数组与指针](#数组与指针)
+        - [字符串指针和字符串　Char pointer and Char](#字符串指针和字符串　char-pointer-and-char)
         - [递归 Recursion](#递归-recursion)
         - [链表 linked list](#链表-linked-list)
         - [二叉树 binary tree](#二叉树-binary-tree)
@@ -197,12 +198,12 @@ void moo() {
 - 构建特殊的数据结构 Building special data structures (i.e. Tree, Tries, etc...)
 
 什么是指针？
-指针是一个int 类型的变量，指向其`value`在内存中的`地址`,而不是直接将值存储在变量中。
-（简言之，指针是一个指向内存地址的变量，变量的值存储在其指向的内存地址中）
+指针是一个变量，指向其`value`在内存中的`地址`,而不是直接将值存储在变量中。
+（简言之，指针是一个指向内存地址的变量，变量的值存储在其指向的内存地址中，指针变量页存在内存的某个地址中）
 
 操作符
 - `*` 定义、使用指针, 间接寻址运算符，返回指针指向的内存地址的值
-- `&`  取地址运算符, 返回变量所在的内存地址
+- `&`  取地址运算符, 返回一个指向变量所在的内存地址的指针(对数组取地址指针时候可以用也可以不用&操作符，因为数组变量名本身就表现为一个指向数组的指针指针)
 
 
 ```
@@ -249,7 +250,6 @@ a += 1;
 printf("The value of a is now %d\n", a);
 ```
 
-
 ### （对象）结构 Structures
 C structures are special, large variables which contain several named variables inside.
 
@@ -291,6 +291,32 @@ vehicle mycar;
 
 // mycar.brand = "Ford";
 // mycar.model = 2007;
+
+// 指向结构的指针、
+# 定义结构
+typedef struct {
+        int age;
+        char * name;
+} person;
+
+# 创建一个person结构的变量
+person leo;
+leo.name="leo";
+leo.age=23;
+
+# 创建一个指向person结构变量leo的指针
+person *ps=&leo;
+
+# 使用指向结构的指针
+
+printf("leo.age: %d\n", (*ps).age);
+printf("leo.age: %s\n", (*ps).name);
+# or
+printf("leo.age: %d\n", ps->age);
+printf("leo.age: %s\n", ps->name);
+
+ps->age=12
+ps->name="leoy";
 ```
 ### `按值传递` 和 `按址(引用)传递`函数参数 Function arguments by reference
 
@@ -298,17 +324,22 @@ vehicle mycar;
 - 按址传递（传递一个指针），会将指针本身改变，（参考Js引用类型，Array,Object,Function...）
 - 按值传递，传递了变量值的一个拷贝，不会改变原变量.
 
+- 函数参数为指针，可以通过指针操作变量的值
+
 ```
+# 参数为普通指针
+
+
+# 参数为指向struct的指针
 void move(point * p) {
     (*p).x++;
     (*p).y++;
 }
-
-// is equal to
-
+# 另一中写法shorthand syntax
 void move(point * p) {
-    p->x++;
-    p->y++;
+    p->x++;             # 见->操作符即想到该变量是一个指向struct的指针
+    p->y++;             # p-> : 理解为返回指针变量指向的struct的地址中的值 (然而并不能直接这样用，只能用于操作成员属性)
+                        # p->y: 操作符右边可以直接访问到struct的成员属性的值
 }
 ```
 
@@ -334,7 +365,8 @@ free(myperson);
 指向数组的指针
 ```
 char vowels[] = {'A', 'E', 'I', 'O', 'U'};
-char *pvowels = &vowels;
+char *pvowels = &vowels; 
+# 这里的vowels可以直接赋值给指针，因为vowels就是一个指针，pointer to char
 int i;
 
 // Print the addresses
@@ -408,6 +440,21 @@ free(pvowels[1]);
 
 // Free the top-level pointer
 free(pvowels);
+```
+###　字符串指针和字符串　Char pointer and Char
+- [Strings as arrays, as pointers, and string.h](https://www.cs.bu.edu/teaching/c/string/intro/) **推荐，可以透彻理解**
+```
+char amessage[] = "now is the time";
+# Defines an array whose members live in the current scope's stack space, whereas:
+# 定义了一个数组，成员在当前变量的内存地址中
+
+char *pmessage = "now is the time";
+＃　定义了一个指针，指针在当前变量的内存地址，而数据存储在内存的其他某个地址，一般存在string table中
+pmessage      // "now is the time"
+*pmessage     // n
+*(pmessage+1) // o
+*(pmessage+2) // w
+
 ```
 
 ### 递归 Recursion

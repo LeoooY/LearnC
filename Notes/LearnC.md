@@ -366,8 +366,8 @@ free(myperson);
 ```
 char vowels[] = {'A', 'E', 'I', 'O', 'U'};
 char *pvowels = &vowels; 
-# 这里的vowels可以直接赋值给指针，因为vowels就是一个指针，pointer to char
-int i;
+# char *pvowels = vowels; 也可以
+# &vowel代表数组首地址，vowels表示vowels[0]的首地址
 
 // Print the addresses
 for (i = 0; i < 5; i++) {

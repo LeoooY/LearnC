@@ -253,8 +253,11 @@ printf("The value of a is now %d\n", a);
 ### （对象）结构 Structures
 C structures are special, large variables which contain several named variables inside.
 
-结构是C语言中`Objects`对象和`Class`类的基础
+`struct`是C语言中`Objects`对象和`Class`类的基础
 
+可以用`struct`或者`typedef struct`定义，区别在于：
+- `struct varname {}`定义结构，使用时还得用`struct varname`申明
+- `typedef struct {} varname`定义结构，使用时直接使用定义的变量名`varname`申明
 ```
 // 定义结构
 struct point {

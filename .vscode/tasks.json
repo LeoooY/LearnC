@@ -36,9 +36,11 @@
         "command": "/usr/bin/gcc",
         "args": [
             "-g",
-            "${file}",
+            // "${file}", /* 单文件编译 */
+            "${fileDirname}/*.c",
             "-o",
-            "${fileDirname}/${fileBasenameNoExtension}"
+            "${fileDirname}/${fileBasenameNoExtension}",
+            "-lm"
         ],
         "options": {
             "cwd": "/usr/bin"

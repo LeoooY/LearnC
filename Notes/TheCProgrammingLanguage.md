@@ -45,6 +45,142 @@ while ((c = getchar()) !=EOF)
 在任何一种编程语言中，如果代码的执行结果与求值顺序相关，则都是不好的程序设计
 风格。很自然，有必要了解哪些问题需要避免，但是，如果不知道这些问题在各种机器上是如何解决的，就最好不要尝试运用某种特殊的实现方式。
 
+## 第四章 函数与程序结构
+### 4.3 外部变量
+```
+external: 定义在函数外部的变量，及函数本身就是"外部的"
+internal: 指的是定义在函数内部的参数、变量等
+
+external变量可以在文件作用域全局访问，相当于全局变量
+
+```
+### 4.4 作用域规则
+- 变量、函数必须先定义才可以使用
+- 来自其他文件的外部变量需要使用extern关键字来访问
+- 函数不需要使用extern访问，直接用函数名调用
+- 一个外部变量只在一个文件中定义一次，即可在引用链中所有文件内使用external访问，外部变量的初始化只能出现在其定义的时候，定义外部变量的源文件也可以包含对该外部变量的external申明。
+```
+// file1主文件
+#include <stdio.h>
+#include "file2.c"
+
+extern int a;           // 使用external访问到file2定义的外部变量
+int main(){
+    printf("number is %d",a);
+}
+
+// file2
+int a=1;
+```
+
+### 4.5 头文件
+- [gcc include syntax](https://gcc.gnu.org/onlinedocs/gcc-3.0.1/cpp_2.html)
+```
+#include <stdio.h>      // 引入标准库中的头文件
+
+#include "myh.h"        // 引入自己写的头文件
+// #include "myh.c"        // 强烈不建议引入c文件，所有都应该在头文件里面定义然后引入头文件
+
+// myh.h中的定义函数可以直接在此进行调用（因为函数都是外部变量）
+// 定义的变量需要使用 external 先申明再调用
+```
+- 将单个文件通过头文件模块化拆分
+
+`main.c`
+```
+#include <stdio.h>
+#include "util.h"
+
+int main(){
+    someutil()
+}
+```
+
+`util.h`
+```
+#ifndef test_head           // 使用条件使得头文件只会引入一次
+#define test_head           // test_head可以任取为体现头文件特性的名字
+void someutil();
+#endif
+
+or                          // 多平台兼容的头文件
+
+#if SYSTEM_1
+# include "system_1.h"
+#elif SYSTEM_2
+# include "system_2.h"
+#elif SYSTEM_3
+...
+#endif
+```
+
+`util.c`
+```
+#include <stdio.h>
+void someutil(){
+    // 头文件中someutil函数的具体实现
+}
+```
+编译
+```
+# shell中
+gcc main.c util.c
+
+# vscode中，将编译task的参数改为:
+"command": "/usr/bin/gcc",
+"args": [
+    "-g",
+    "${fileDirname}/*.c",
+    "-o",
+    "${fileDirname}/${fileBasenameNoExtension}",
+    "-lm"
+]
+
+(总之就是要把所有用到的c文件都编译,且只通过头文件引入util)
+```
+在编译时，util.c中的函数（作为外部变量）可以被头文件访问到（应该是头文件的机制），而在main.c中因为引入了util.h即可访问到其函数，头文件通过这种方式将各个文件的函数与main.c文件联系起来了
+
+
+
+### 4.6 静态变量
+- **函数内部的static变量**，一直存在与内存中，不会随着函数调用完成而销毁
+```
+int testStatic(){
+    int a=1;
+    static int sa=1;
+    a++
+    sa++;
+    printf("a: %d, sa: %d",a,sa)
+}
+
+int main(){
+    for(int i;i<5;i++){
+        testStatic();
+    }
+}
+
+// result:
+a: 2, sa: 2 
+a: 2, sa: 3 
+a: 2, sa: 4 
+a: 2, sa: 5 
+a: 2, sa: 6 
+// a会在每次调用时进行初始化，所以一直输出的是2
+// static 静态变量sa的值会存在内存中，只初始化一次，之后读取内存中的值，知道程序结束才销毁（而不是调用结束销毁）
+```
+- **函数外部的static**，static变量 static函数，(static使变量)作用域只在定义的源文件中(其他文件不可调用访问源文件的static变量和函数)
+
+使用static关键字申明变量和函数后，对静态变量的操作只在申明的源文件作用域有效
+```
+static int a=1;
+static void hello(){
+    printf("Hello Static");
+}
+```
+
+### 4.7 寄存器变量
+
+
 ## 第五章 指针与数组
 ### 5.3 指针与数组
 通过数组下标所能完成的任何操作都可以通过指针来实现。一般来说，用指针编写的程序比用数组下标编写的程序执行速度快，但另一方面，用指针实现的程序理解起来稍微困难一些。

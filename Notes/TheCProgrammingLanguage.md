@@ -138,7 +138,7 @@ gcc main.c util.c
 
 (总之就是要把所有用到的c文件都编译,且只通过头文件引入util)
 ```
-在编译时，util.c中的函数（作为外部变量）可以被头文件访问到（应该是头文件的机制），而在main.c中因为引入了util.h即可访问到其函数，头文件通过这种方式将各个文件的函数与main.c文件联系起来了
+在编译时，util.c中的函数（作为外部变量）可以被头文件访问到（应该是头文件的机制），而在main.c中因为引入了util.h即可访问到其函数，头文件通过这种方式将各个文件的函数与main.c文件联系起来了(在编译时通过Linker将头文件util.h和util.c链接起来 [**C header files and compilation/linking**](https://stackoverflow.com/questions/18548157/c-header-files-and-compilation-linking)
 
 
 

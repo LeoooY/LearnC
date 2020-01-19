@@ -23,7 +23,7 @@
             - [二叉树的常规操作](#二叉树的常规操作)
         - [二叉平衡树](#二叉平衡树)
         - [集合 Union](#集合-union)
-        - [指针算法 Pointer Arithmetics](#指针算法-pointer-arithmetics)
+        - [指针运算 Pointer Arithmetics](#指针运算-pointer-arithmetics)
         - [函数指针 Function Pointers](#函数指针-function-pointers)
 
 <!-- /TOC -->
@@ -585,7 +585,7 @@ union intParts {
 };
 ```
 
-### 指针算法 Pointer Arithmetics
+### 指针运算 Pointer Arithmetics
 - `Incrementing a Pointer with (++)`
 
 - `Decreasing a Pointer with (--)`

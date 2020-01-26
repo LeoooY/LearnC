@@ -45,9 +45,6 @@ int isTheSame(int N) {
 }
 
 int IsTheNumber(const int N) {
-    isTheSame(N);
-    if (N == sqrt(N)) {
-        return 1;
-    }
+    isTheSame(N);    
     return 0;
 }
